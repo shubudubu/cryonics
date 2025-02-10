@@ -5,6 +5,8 @@ While currently in development for real-time integration, the project ultimately
 
 Beyond cry analysis, Cryonics is also developing a community support feature, allowing parents to submit queries and receive expert advice on infant care.  Furthermore, the project is exploring the potential of similar audio analysis techniques for early autism detection, demonstrating its commitment to advancing infant well-being.
 
+Dataset: https://www.kaggle.com/datasets/warcoder/infant-cry-audio-corpus
+
 <b>Labeling;</b>
 0: belly_pain
 1: burping
