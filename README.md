@@ -1,3 +1,3 @@
 # cryonics
 
-![training](images/image_name.png)
+![training](images/Screenshot%20(555).png)
