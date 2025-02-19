@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaze Detection Test</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        #center-container {
+            text-align: center;
+            width: 30%;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #startBtn {
+            background-color: green;
+            color: white;
+        }
+
+        #stopBtn {
+            background-color: red;
+            color: white;
+        }
+
+        video {
+            width: 35%;
+            height: 100vh;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Left Video -->
+    <video id="leftVideo" loop muted>
+        <source src="/left_video" type="video/mp4">
+    </video>
+
+    <!-- Center Controls -->
+    <div id="center-container">
+        <h1>geometric <br>preference test</h1>
+        <button id="startBtn" onclick="startTest()">Start Test</button>
+        <button id="stopBtn" onclick="stopTest()">Stop Test</button>
+        <h2 id="result"></h2>
+    </div>
+
+    <!-- Right Video -->
+    <video id="rightVideo" loop muted>
+        <source src="/right_video" type="video/mp4">
+    </video>
+
+    <script>
+        const leftVideo = document.getElementById("leftVideo");
+        const rightVideo = document.getElementById("rightVideo");
+    
+        function startTest() {
+            fetch('/start_test', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    document.getElementById("result").innerText = ""; // Clear previous result
+                    
+                    // Ensure videos reset and play from the start
+                    leftVideo.currentTime = 0;
+                    rightVideo.currentTime = 0;
+                    leftVideo.play();
+                    rightVideo.play();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        function stopTest() {
+            fetch('/stop_test', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        document.getElementById("result").innerText = 
+                            `Right Gaze Percentage: ${data.right_gaze_percentage}%\n${data.autism_indicator}`;
+                    }
+                    
+                    // Pause videos when stopping the test
+                    leftVideo.pause();
+                    rightVideo.pause();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+    
+
+</body>
+</html>

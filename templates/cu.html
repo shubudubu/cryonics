@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+    font-family: Montserrat, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+            background: url("{{ url_for('static', filename='other/newborn-children-banner-cute-cartoon-baby-frame-infant-blond-smiling-toddler-blue-clothes-different-poses-sleeping-playing-happy-newborn-child-vector-illustration-isolated-white-background_176411-2075.avif') }}") no-repeat center center fixed;
+            background-size: cover; /* Ensure full coverage */
+    background-size: cover; /* Enlarges image to cover full screen */
+}
+
+        .contact-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            color:black;
+        }
+        input, textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid black;
+            padding: 10px;
+            font-size: 16px;
+            color:black;
+            outline: none;
+            margin-bottom: 15px;
+        }
+        input::placeholder, textarea::placeholder {
+            color:black;
+        }
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: 0.3s ease;
+        }
+        button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        #responseMessage {
+            margin-top: 10px;
+            color: lime;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contact-container">
+        <h2>Contact Us</h2>
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
+        <button onclick="sendMessage()">Send</button>
+        <p id="responseMessage"></p>
+    </div>
+
+    <script>
+        function sendMessage() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let message = document.getElementById("message").value;
+            let responseMessage = document.getElementById("responseMessage");
+
+            fetch('/send_message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                responseMessage.textContent = data.message;
+                document.getElementById("name").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("message").value = "";
+            })
+            .catch(error => {
+                responseMessage.textContent = "Error sending message!";
+                responseMessage.style.color = "red";
+            });
+        }
+    </script>
+
+</body>
+</html>
