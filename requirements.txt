@@ -1,11 +1,11 @@
 json
-numpy as np
-pandas as pd
+numpy 
+pandas 
 joblib
 librosa
 os
 flask 
 cv2
-mediapipe as mp
+mediapipe 
 time
 threading
