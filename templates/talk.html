@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infant Care Chatbot</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    margin: 0;
+}
+* {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+.chat-container {
+    width: 50%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chatbox {
+    width: 100%; /* Ensures it spans full container width */
+    height: 400px; /* Taller chatbox */
+    max-height: 500px; 
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+
+.input-container {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+}
+
+input {
+    flex: 1; /* Takes up remaining space */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px; /* Rounded left side */
+}
+
+button {
+    padding: 10px 15px;
+    cursor: pointer;
+    background: blue;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0; /* Rounded right side */
+    white-space: nowrap; /* Prevents button from resizing */
+}
+
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Infant Care Chatbot</h2>
+        <div class="chatbox" id="chatbox"></div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Ask about infant care..." />
+            <button id="sendBtn">Send</button>
+        </div>
+        
+    </div>
+
+    <script>
+        document.getElementById("sendBtn").addEventListener("click", function() {
+            let userMessage = document.getElementById("userInput").value.trim();
+            if (userMessage === "") return;
+
+            // Display user message
+            let chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += `<p><b>You:</b> ${userMessage}</p>`;
+
+            // Send request to Flask backend
+            fetch("http://127.0.0.1:5000/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: userMessage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatbox.innerHTML += `<p><b>Bot:</b> ${data.response}</p>`;
+                chatbox.scrollTop = chatbox.scrollHeight; // Auto-scroll
+            })
+            .catch(error => console.error("Error:", error));
+
+            document.getElementById("userInput").value = ""; // Clear input field
+        });
+    </script>
+</body>
+</html>
