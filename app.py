@@ -11,6 +11,8 @@ import cv2
 import mediapipe as mp
 import time
 import threading
+from flask_cors import CORS
+import requests
 
 questions = {
     1: "Does your child enjoy being swung, bounced on your knee, etc.?",
@@ -332,7 +334,61 @@ def right_video():
     """Serve the right side video."""
     return send_file("static/right.mp4", mimetype="video/mp4")
 
+CORS(app)  # Allow frontend to talk to backend
 
+# Hugging Face API details
+API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3"
+HEADERS = {"Authorization": "Bearer api-key"}  # Replace with your Hugging Face API key
+
+# Function to get chatbot response
+def chatbot_response(user_input):
+    prompt = f"You are a helpful chatbot that only answers questions about infant care, child care, and parenting. If a user asks something else, politely decline.\n\nUser: {user_input}\nBot:"
+    
+    response = requests.post(API_URL, headers=HEADERS, json={"inputs": prompt})
+
+    if response.status_code == 200:
+        full_text = response.json()[0]["generated_text"]
+
+        # Extract only the bot's response
+        if "Bot:" in full_text:
+            bot_response = full_text.split("Bot:")[1].strip()
+        else:
+            bot_response = full_text.strip()
+        
+        # Convert numbered lists into bullet points
+        bot_response = format_as_bullets(bot_response)
+        
+        return bot_response
+    else:
+        return "Sorry, I'm having trouble answering right now. Please try again later."
+
+def format_as_bullets(text):
+    """ Converts numbered lists (1., 2., etc.) into bullet points (-) """
+    lines = text.split("\n")
+    formatted_lines = []
+    
+    for line in lines:
+        if line.strip().startswith(tuple(f"{i}." for i in range(1, 20))):  # Matches "1.", "2." etc.
+            line = "- " + line.split(".", 1)[1].strip()
+        formatted_lines.append(line)
+    
+    return "\n".join(formatted_lines)
+
+# Serve frontend
+@app.route("/talk")
+def talk():
+    return render_template("talk.html")
+
+# API Endpoint for chatbot
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    if not data or "message" not in data:
+        return jsonify({"error": "Invalid request"}), 400  # Handle invalid input
+
+    user_input = data["message"]
+    bot_response = chatbot_response(user_input)
+    return jsonify({"response": bot_response})
 
 if __name__ == "__main__":
     app.run(debug=True)
