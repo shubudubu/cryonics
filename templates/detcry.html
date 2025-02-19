@@ -1,59 +1,96 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Cryonics</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" crossorigin="anonymous" />
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main copy.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/utilities.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" crossorigin="anonymous" />
-    </head>
-    <body>
-        <main>
-            <section class="sc-services">
-                <div class="services-shape">
-                    <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
-                </div>
-                <div class="container">
-                    <div class="services-content">
-                        <div class="title-box text-center">
-                            <div class="content-wrapper">
-                                <h3 class="title-box-name">Detect Cry</h3>
-                                <p class="texty">Figure out the reason for crying - hunger, belly pain, tiredness, burping, or discomfort.</p>
-                            </div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cryonics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        crossorigin="anonymous" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+        crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main copy.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/utilities.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        crossorigin="anonymous" />
+</head>
+
+<body style="cursor: default;">
+    <main>
+        <!-- Back Button -->
+        <a href="{{ url_for('sub_page') }}" class="back-button">← Back</a>
+
+
+        <style>
+            .back-button {
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                background-color: rgb(95, 95, 239);
+                color: white;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                z-index: 1000;
+                /* Ensures it's above other elements */
+                cursor: pointer;
+            }
+
+            .back-button:hover {
+                background-color: rgb(0, 0, 0);
+                color: white;
+                text-decoration: none;
+            }
+        </style>
+        <section class="sc-services">
+            <div class="services-shape">
+                <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
+            </div>
+            <div class="container">
+                <div class="services-content">
+                    <div class="title-box text-center">
+                        <div class="content-wrapper">
+                            <h3 class="title-box-name">Detect Cry</h3>
+                            <p class="texty">Figure out the reason for crying - hunger, belly pain, tiredness, burping,
+                                or discomfort.</p>
                         </div>
-                        <div class="services-container">
-                            <div class="services-item">
-                                <h5 class="item-title fw-7">Detect Cry</h5>
-                                <input type="file" id="audioFile" accept="audio/*">
-                                <button onclick="uploadAudio()">Predict Cry Type</button>
-                                <p class="text" id="result">Upload an audio file to detect the cry type.</p>
-                            </div>
+                    </div>
+                    <div class="services-container">
+                        <div class="services-item">
+                            <h5 class="item-title fw-7">Detect Cry</h5>
+                            <input type="file" id="audioFile" accept="audio/*">
+                            <button onclick="uploadAudio()">Predict Cry Type</button>
+                            <p class="text" id="result">Upload an audio file to detect the cry type.</p>
                         </div>
-                        <script>
-                            function uploadAudio() {
-                                let fileInput = document.getElementById("audioFile");
-                                let resultText = document.getElementById("result");
+                    </div>
+                    <script>
+                        function uploadAudio() {
+                            let fileInput = document.getElementById("audioFile");
+                            let resultText = document.getElementById("result");
 
-                                if (!fileInput.files.length) {
-                                    resultText.innerText = "Please select an audio file.";
-                                    return;
-                                }
+                            if (!fileInput.files.length) {
+                                resultText.innerText = "Please select an audio file.";
+                                return;
+                            }
 
-                                let formData = new FormData();
-                                formData.append("audio", fileInput.files[0]);
+                            let formData = new FormData();
+                            formData.append("audio", fileInput.files[0]);
 
-                                resultText.innerText = "Processing...";
+                            resultText.innerText = "Processing...";
 
-                                fetch("/predict", { 
-                                    method: "POST",
-                                    body: formData
-                                })
+                            fetch("/predict", {
+                                method: "POST",
+                                body: formData
+                            })
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.error) {
@@ -66,62 +103,78 @@
                                     console.error("Error:", error);
                                     resultText.innerText = "An error occurred. Please try again.";
                                 });
-                            }
-                        </script>
-                        <style>
-                            .services-container {
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                height: 100vh;
-                                margin-top: -120px;
-                            }
-                            .services-item {
-                                width: 600px;
-                                min-height: 300px;
-                                padding: 50px;
-                                background-color: white;
-                                border-radius: 25px;
-                                box-shadow: 10px 40px 50px rgba(0, 0, 0, 0.1);
-                                text-align: center;
-                                border: 2px solid #010e17;
-                            }
-                            .services-item input {
-                                display: block;
-                                margin: 20px auto;
-                                padding: 12px;
-                                border: 1px solid #ccc;
-                                border-radius: 8px;
-                                width: 85%;
-                                font-size: 16px;
-                            }
-                            .services-item button {
-                                background-color:rgb(95, 95, 239);
-                                color: white;
-                                border: none;
-                                padding: 15px 25px;
-                                border-radius: 8px;
-                                cursor: pointer;
-                                margin-top: 20px;
-                                font-size: 18px;
-                                transition: background-color 0.3s ease;
-                            }
-                            .services-item button:hover {
-                                background-color:black;
-                                color: aliceblue;
-                            }
-                            .text {
-                                margin-top: 20px;
-                                font-size: 20px;
-                                color: #507da0;
-                            }
-                        </style>
-                    </div>
+                        }
+                    </script>
+                    <style>
+                        .services-container {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin-top: -120px;
+                            cursor: default;
+                        }
+
+                        .services-item {
+                            width: 600px;
+                            min-height: 300px;
+                            padding: 50px;
+                            background-color: white;
+                            border-radius: 25px;
+                            box-shadow: 10px 40px 50px rgba(0, 0, 0, 0.1);
+                            text-align: center;
+                            border: 2px solid #010e17;
+                        }
+
+                        .services-item input {
+                            display: block;
+                            margin: 20px auto;
+                            padding: 12px;
+                            border: 1px solid #ccc;
+                            border-radius: 8px;
+                            width: 85%;
+                            font-size: 16px;
+                            cursor: pointer;
+                        }
+
+                        .services-item button {
+                            background-color: rgb(95, 95, 239);
+                            color: white;
+                            border: none;
+                            padding: 15px 25px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            margin-top: 20px;
+                            font-size: 18px;
+                            transition: background-color 0.3s ease;
+                        }
+
+                        .services-item button:hover {
+                            background-color: black;
+                            color: aliceblue;
+                        }
+
+
+                        .text {
+                            margin-top: 20px;
+                            font-size: 20px;
+                            color: #507da0;
+                        }
+
+                        .text:hover {
+                            margin-top: 20px;
+                            font-size: 20px;
+                            color: #507da0;
+                        }
+                    </style>
                 </div>
-            </section>
-        </main>
-        <script src="https://code.jquery.com/jquery-3.6.4.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" crossorigin="anonymous"></script>
-        <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
-    </body>
+            </div>
+        </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.4.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+</body>
+
 </html>

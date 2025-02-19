@@ -1,69 +1,113 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Cryonics</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- font awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- owl carousel -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- custom css -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main copy 2.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/utilities.css') }}">
-        <!-- normalize.css -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    </head>
-    <body>
-        
-      
 
-            <main>
-                <section class = "sc-services">
-                    <div class = "services-shape">
-                        <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
-                    </div>
-                    <div class="container">
-                        <div class = "services-content">
-                            <div class="title-box text-center">
-                                <div class = "content-wrapper">
-                                    <h3 class = "title-box-name">autism analysis</h3>
-                                    <p class = "texty">check whether your child shows possible signs of autism.</p>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cryonics</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+        integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- custom css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main copy 2.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/utilities.css') }}">
+    <!-- normalize.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 
-                                </div>
-                            </div>
+<body>
 
-                            <div class = "services-list">
-                                <div class = "services-item" onclick="window.location.href='/agt';">
-                                    <div class = "item-icon">
-                                        
-                                        <img src="{{ url_for('static', filename='other/radar.svg') }}" alt="service icon" style="width: 120px; height: 120px;">
 
-                                    </div>
-                                    
-                                    <h5 class = "item-title fw-7">Geometrical<br> Preference Test</h5>
-                                    <p class = "text">Children with autism often engage in repetitive behaviors and anecdotally prefer to visually examine geometric repetition </p>
-                                </div>
-                                <div class = "services-item" onclick="window.location.href='/asc';">
-                                        <div class="item-icon">
-                                            <img src="{{ url_for('static', filename='other/list-check.svg') }}" alt="service icon" style="width: 120px; height: 120px;">
-                                        </div>
-                                        
-                                        <h5 class = "item-title fw-7">Autism Screening</h5>
-                                        <p class = "text">The M-CHAT-R/F is a 2-stage parent-report screening tool to assess risk for Autism Spectrum Disorder (ASD).</p>
-                                </div>
-                            </div>
+
+    <main style="cursor: default;">
+        <!-- Back Button -->
+        <a href="{{ url_for('sub_page') }}" class="back-button">← Back</a>
+
+
+        <style>
+            .back-button {
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                background-color: #ffffff;
+                color: rgb(0, 0, 0) !important;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 5px;
+                border-color: #000000;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                z-index: 1000;
+                /* Ensures it's above other elements */
+                cursor: pointer;
+            }
+
+            .back-button:hover {
+                background-color: #000000;
+                color: #fff !important;
+                text-decoration: none;
+            }
+        </style>
+        <section class="sc-services" style="height: 100vh;">
+            <div class="services-shape">
+                <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
+            </div>
+            <div class="container">
+                <div class="services-content">
+                    <div class="title-box text-center">
+                        <div class="content-wrapper">
+                            <h3 class="title-box-name">autism analysis</h3>
+                            <p class="texty">check whether your child shows possible signs of autism.</p>
+
                         </div>
                     </div>
-                </section>
 
-                    
-            </main>
-        </div>
-        
+                    <div class="services-list">
+                        <div class="services-item" onclick="window.location.href='/agt';" style="cursor:pointer;">
+                            <div class="item-icon">
+
+                                <img src="{{ url_for('static', filename='other/radar.svg') }}" alt="service icon"
+                                    style="width: 120px; height: 120px;">
+
+                            </div>
+
+                            <h5 class="item-title fw-7">Geometrical<br> Preference Test</h5>
+                            <p class="text">Children with autism often engage in repetitive behaviors and anecdotally
+                                prefer to visually examine geometric repetition </p>
+                        </div>
+                        <div class="services-item" onclick="window.location.href='/asc';" style="cursor:pointer;">
+                            <div class="item-icon">
+                                <img src="{{ url_for('static', filename='other/list-check.svg') }}" alt="service icon"
+                                    style="width: 120px; height: 120px;">
+                            </div>
+
+                            <h5 class="item-title fw-7">Autism Screening</h5>
+                            <p class="text">The M-CHAT-R/F is a 2-stage parent-report screening tool to assess risk for
+                                Autism Spectrum Disorder (ASD).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+    </div>
 
 
 
@@ -71,11 +115,16 @@
 
 
 
-        <!-- jquery cdn -->
-        <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-        <!-- owl carousel -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <!-- custom js -->
-        <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
-    </body>
+
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <!-- owl carousel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- custom js -->
+    <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+</body>
+
 </html>

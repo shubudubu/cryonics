@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main copy 3.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/utilities.css') }}">
     <style>
-        
-      
         h2 {
             color: #333;
         }
+
         form {
             text-align: left;
         }
+
         label {
             display: block;
             margin: 10px 0;
         }
+
         button {
             background-color: #007BFF;
             color: white;
@@ -28,18 +30,50 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         .result {
             font-size: 18px;
             margin-top: 20px;
         }
     </style>
 </head>
+
 <body>
 
     <main>
+        <!-- Back Button -->
+        <a href="{{ url_for('at') }}" class="back-button">← Back</a>
+
+
+        <style>
+            .back-button {
+                position:fixed;
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                background-color: #007BFF;
+                color: white !important;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                z-index: 1000;
+                /* Ensures it's above other elements */
+                cursor: pointer;
+            }
+
+            .back-button:hover {
+                background-color: #0056b3;
+                color: #fff !important;
+                text-decoration: none;
+            }
+        </style>
         <section class="sc-services">
             <div class="services-shape">
                 <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
@@ -49,28 +83,29 @@
                     <div class="title-box text-center">
                         <div class="content-wrapper">
                             <h3 class="title-box-name">Autism Screening</h3>
-                            <p class="texty">The M-CHAT-R/F is a 2-stage parent-report screening tool to assess risk for Autism Spectrum Disorder (ASD).</p>
+                            <p class="texty">The M-CHAT-R/F is a 2-stage parent-report screening tool to assess risk for
+                                Autism Spectrum Disorder (ASD).</p>
                         </div>
                     </div>
 
                     <form action="{{ url_for('results') }}" method="POST">
-                        
+
                     </form>
 
                     <form action="{{ url_for('results') }}" method="POST" class="services-container">
                         <div class="services-grid">
                             <div class="services-item">
                                 {% for num, question in questions.items() %}
-                            <label>
-                                {{ num }}. {{ question }}
+                                <label>
+                                    {{ num }}. {{ question }}
+                                    <br>
+                                    <input type="radio" name="{{ num }}" value="yes" required> Yes
+                                    <input type="radio" name="{{ num }}" value="no"> No
+                                </label>
                                 <br>
-                                <input type="radio" name="{{ num }}" value="yes" required> Yes
-                                <input type="radio" name="{{ num }}" value="no"> No
-                            </label>
-                            <br>
-                        {% endfor %}
+                                {% endfor %}
                             </div>
-                            
+
                         </div>
                         <div class="text-center">
                             <button type="submit" class="services-main-btn">Submit</button>
@@ -79,7 +114,7 @@
                 </div>
             </div>
         </section>
-        
+
         <style>
             .services-grid {
                 display: grid;
@@ -88,15 +123,17 @@
                 justify-content: center;
                 align-items: center;
             }
+
             .services-item {
-        background: #f9f9f9;
-        border-radius: 10px;
-        width: 100%;
-        height: auto;
-    }
+                background: #f9f9f9;
+                border-radius: 10px;
+                width: 100%;
+                height: auto;
+            }
         </style>
-        
+
     </main>
 
 </body>
+
 </html>

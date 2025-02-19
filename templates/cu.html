@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- custom css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/utilities.css') }}">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-    font-family: Montserrat, sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+            font-family: Montserrat, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: url("{{ url_for('static', filename='other/newborn-children-banner-cute-cartoon-baby-frame-infant-blond-smiling-toddler-blue-clothes-different-poses-sleeping-playing-happy-newborn-child-vector-illustration-isolated-white-background_176411-2075.avif') }}") no-repeat center center fixed;
-            background-size: cover; /* Ensure full coverage */
-    background-size: cover; /* Enlarges image to cover full screen */
-}
+            background-size: cover;
+        }
 
         .contact-container {
             display: flex;
@@ -27,77 +35,154 @@
             align-items: center;
             width: 100%;
             max-width: 400px;
-            color:black;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        input, textarea {
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input,
+        textarea {
             width: 100%;
             background: transparent;
             border: none;
             border-bottom: 2px solid black;
             padding: 10px;
             font-size: 16px;
-            color:black;
+            color: black;
             outline: none;
             margin-bottom: 15px;
         }
-        input::placeholder, textarea::placeholder {
-            color:black;
-        }
-        button {
-            background: rgba(255, 255, 255, 0.2);
+
+        input::placeholder,
+        textarea::placeholder {
             color: black;
-            padding: 10px 20px;
+        }
+
+        button {
+            background: rgba(190, 218, 253, 0.438);
+            color: black;
+            padding: 10px 50px;
             border: none;
             cursor: pointer;
             border-radius: 50px;
             font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: 0.3s ease;
+            display: block; /* Make the button a block element */
+            margin: 0 auto; /* Center the button horizontally */
         }
-        button:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
+
         #responseMessage {
             margin-top: 10px;
             color: lime;
         }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: rgba(190, 218, 253, 0.438);
+            align-items: center;
+            color: rgb(0, 0, 0) !important;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            border-color: #000000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .back-button:hover,
+        button:hover {
+            background-color: #000000;
+            color: #fff !important;
+        }
+
+        .services-shape {
+            position: absolute;
+            top: 200px;
+            right: 0;
+            width: 100%;
+        }
+
+        .services-shape img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .articles-element {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .articles-element img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
-<body>
+
+<body style="width: 100%;">
+    <!-- Back Button -->
+    <a href="{{ url_for('sub_page') }}" class="back-button">← Back</a>
+
+    <div class="services-shape">
+        <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
+    </div>
+
+    <div class="articles-element" style="position: absolute; top: 50px; right: 0;">
+        <img src="{{ url_for('static', filename='assets/images/element-img-2.png') }}" alt="Logo" style="display: block; max-width: 100%; height: auto;">
+    </div>
 
     <div class="contact-container">
         <h2>Contact Us</h2>
-        <input type="text" id="name" placeholder="Your Name" required>
-        <input type="email" id="email" placeholder="Your Email" required>
-        <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
-        <button onclick="sendMessage()">Send</button>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
+            <button type="submit">Send</button>
+        </form>
         <p id="responseMessage"></p>
     </div>
 
     <script>
-        function sendMessage() {
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
             let name = document.getElementById("name").value;
             let email = document.getElementById("email").value;
             let message = document.getElementById("message").value;
             let responseMessage = document.getElementById("responseMessage");
 
-            fetch('/send_message', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, message })
-            })
-            .then(response => response.json())
-            .then(data => {
-                responseMessage.textContent = data.message;
+            // Simple validation
+            if (!name || !email || !message) {
+                responseMessage.textContent = "Please fill out all fields!";
+                responseMessage.style.color = "red";
+                return;
+            }
+
+            // Simulate a successful response
+            setTimeout(() => {
+                responseMessage.textContent = "Message sent successfully!";
+                responseMessage.style.color = "lime";
                 document.getElementById("name").value = "";
                 document.getElementById("email").value = "";
                 document.getElementById("message").value = "";
-            })
-            .catch(error => {
-                responseMessage.textContent = "Error sending message!";
-                responseMessage.style.color = "red";
-            });
-        }
+            }, 1000);
+        });
     </script>
-
 </body>
+
 </html>

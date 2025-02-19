@@ -21,7 +21,7 @@
         
       
 
-            <main>
+            <main style="cursor: default;">
                 <section class = "sc-services">
                     <div class = "services-shape">
                         <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
@@ -37,7 +37,7 @@
                             </div>
 
                             <div class = "services-list">
-                                <div class = "services-item" onclick="window.location.href='/detcry';">
+                                <div class = "services-item" onclick="window.location.href='/detcry';" style="cursor: pointer;">
                                     <div class="item-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-up svg-icon" viewBox="0 0 16 16">
                                             <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
@@ -50,7 +50,7 @@
                                     <p class = "text">Figure out what's the reason for crying whether it's hunger, belly pain, tiredness, burping or some discomfort.</p>
                                 </div>
 
-                                <div class = "services-item"  onclick="window.location.href='/at';">
+                                <div class = "services-item"  onclick="window.location.href='/at';" style="cursor: pointer;">
                                     <div class = "item-icon">
                                         
                                         <img src = "{{ url_for('static', filename='other/brain.svg') }}" alt = "service icon">
@@ -59,9 +59,9 @@
                                     <p class = "text">Check whether your child shows possible signs of autism.</p>
                                 </div>
 
-                                <div class = "services-item">
-                                    <div class = "item-icon">
-                                        <img src="{{ url_for('static', filename='other/question-lg.svg')}}" alt="service icon" style="width: 110px; height: 110px;">
+                                <div class = "services-item" style="cursor: pointer;">
+                                    <div class = "item-icon" >
+                                        <img src="{{ url_for('static', filename='other/question-lg.svg')}}" alt="service icon"  style="width: 110px; height: 110px;">
                                     </div>
                                     <h5 class = "item-title fw-7">Ask your Queries</h5>
                                     <p class = "text">Get answers to the questions you have about your child's health and figure out the solutions to the problems of modern day parenting with the help of a chat-bot</p>   
