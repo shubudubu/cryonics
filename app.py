@@ -530,5 +530,41 @@ def chat():
     bot_response = chatbot_response(user_input)
     return jsonify({"response": bot_response})
 
+
+def load_ngos():
+    file_path = "output.json"
+    if not os.path.exists(file_path):
+        return []
+
+    with open(file_path, "r", encoding="utf-8") as file:
+        try:
+            data = json.load(file)
+            return data
+        except json.JSONDecodeError:
+            return []  # If JSON is invalid, return an empty list
+
+@app.route("/sngo", methods=["GET", "POST"])
+def index():
+    ngos = []
+    
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        city = request.form.get("city", "").strip().lower()
+
+        if not name or not city:
+            return render_template("sngo.html", error="Please enter both name and city!")
+
+        all_ngos = load_ngos()
+
+        # ✅ Fix: Ensure "District" is a string before processing
+        ngos = [
+            ngo for ngo in all_ngos 
+            if isinstance(ngo.get("District"), str) and ngo["District"].strip().lower() == city
+        ]
+
+        return render_template("ngor.html", name=name, city=city.title(), ngos=ngos)
+
+    return render_template("sngo.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
