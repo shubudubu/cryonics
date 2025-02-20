@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find NGOs</title>
+    <style>
+        /* General Reset */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+.back-button {
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                background-color: rgb(60, 60, 218);
+                color: white;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                z-index: 1000;
+                /* Ensures it's above other elements */
+                cursor: pointer;
+            }
+
+            .back-button:hover {
+                background-color:white;
+                color: black;
+                text-decoration: none;
+            }
+/* Background Styling */
+body {
+    background: linear-gradient(90deg, #010202, #090606);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Main Container */
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Headings */
+h1 {
+    font-size: 26px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Labels */
+label {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    color: #444;
+}
+
+/* Input Fields */
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Styling */
+button {
+    background: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background:black;
+}
+
+/* Error Message */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('sub_page') }}" class="back-button">← Back</a>
+    <div class="container">
+        <h1>Find NGOs That Can Help</h1>
+        <p>Enter your details to find NGOs that support underprivileged families.</p>
+
+        <form action="/sngo" method="POST">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="city">Enter Your District/City</label>
+            <input type="text" id="city" name="city" placeholder="Enter your city/district" required>
+
+            <button type="submit">Search NGOs</button>
+        </form>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
