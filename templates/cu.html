@@ -158,29 +158,55 @@
     </div>
 
     <script>
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
             event.preventDefault(); // Prevent the form from submitting the traditional way
-
+    
             let name = document.getElementById("name").value;
             let email = document.getElementById("email").value;
             let message = document.getElementById("message").value;
             let responseMessage = document.getElementById("responseMessage");
-
+    
             // Simple validation
             if (!name || !email || !message) {
                 responseMessage.textContent = "Please fill out all fields!";
                 responseMessage.style.color = "red";
                 return;
             }
-
-            // Simulate a successful response
-            setTimeout(() => {
-                responseMessage.textContent = "Message sent successfully!";
-                responseMessage.style.color = "lime";
-                document.getElementById("name").value = "";
-                document.getElementById("email").value = "";
-                document.getElementById("message").value = "";
-            }, 1000);
+    
+            // Prepare the data to send to the backend
+            const formData = {
+                name: name,
+                email: email,
+                message: message
+            };
+    
+            try {
+                // Send the data to the backend
+                const response = await fetch('/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+    
+                const result = await response.json();
+    
+                if (response.ok) {
+                    responseMessage.textContent = "Message sent successfully!";
+                    responseMessage.style.color = "lime";
+                    document.getElementById("name").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("message").value = "";
+                } else {
+                    responseMessage.textContent = result.error || "Failed to send message.";
+                    responseMessage.style.color = "red";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                responseMessage.textContent = "An error occurred. Please try again.";
+                responseMessage.style.color = "red";
+            }
         });
     </script>
 </body>

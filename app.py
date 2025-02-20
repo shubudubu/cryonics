@@ -1,19 +1,29 @@
+import datetime
 import json
 import numpy as np
 import pandas as pd
 import joblib
 import librosa
 import os
-from flask import Flask, request, jsonify, render_template
-
-from flask import Flask, Response, render_template, jsonify, request, send_file
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session, Response, send_file
+from flask_cors import CORS
+from pymongo import MongoClient
+from werkzeug.security import generate_password_hash, check_password_hash
 import cv2
 import mediapipe as mp
 import time
 import threading
-from flask_cors import CORS
 import requests
+import random
+import logging
+from functools import wraps
 
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Load questions
 questions = {
     1: "Does your child enjoy being swung, bounced on your knee, etc.?",
     2: "Does your child take an interest in other children?",  # Critical
@@ -60,6 +70,130 @@ df.drop(columns=["Cry_Audio_File", "Cry_Reason"], inplace=True)
 feature_names = df.drop(columns=["Label"]).columns.tolist()
 
 app = Flask(__name__)
+CORS(app)  # Allow frontend to talk to backend
+
+# Configuration
+app.secret_key = '2e26ff392480745ffc7a87937f472b68'
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['PERMANENT_SESSION_LIFETIME'] = 1800  # 30 minutes
+
+# MongoDB connection
+client = MongoClient('mongodb://localhost:27017/')
+db = client['cryoincsDB']
+users_collection = db['users']
+contacts_collection = db['contacts']  # Collection to store contact messages
+
+@app.route('/contact', methods=['POST'])
+def contact():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid request"}), 400
+
+    # Extract form data
+    name = data.get('name')
+    email = data.get('email')
+    message = data.get('message')
+
+    # Validate required fields
+    if not name or not email or not message:
+        return jsonify({"error": "All fields are required!"}), 400
+
+    # Store the data in MongoDB
+    contact_data = {
+        'name': name,
+        'email': email,
+        'message': message,
+        'timestamp': datetime.datetime.utcnow()  # Add a timestamp
+    }
+    contacts_collection.insert_one(contact_data)
+
+    return jsonify({"message": "Message sent successfully!"}), 200
+
+
+
+# Ensure indexes
+users_collection.create_index('username', unique=True)
+
+# Decorator to check if user is logged in
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid request"}), 400
+
+    # Check for required fields
+    required_fields = ['username', 'childName', 'email', 'password', 'dob', 'birthplace', 'weight', 'bloodGroup', 'gender', 'address']
+    for field in required_fields:
+        if field not in data or not data[field]:
+            return jsonify({"error": f"{field} is required!"}), 400
+
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+
+    # Check if username or email already exists
+    if users_collection.find_one({'username': username}):
+        return jsonify({"error": "Username already exists!"}), 400
+    if users_collection.find_one({'email': email}):
+        return jsonify({"error": "Email already registered!"}), 400
+
+    # Hash the password
+    hashed_password = generate_password_hash(password)
+
+    # Insert the new user
+    user_data = {
+        'username': username,
+        'childName': data.get('childName'),
+        'email': email,
+        'password': hashed_password,
+        'dob': data.get('dob'),
+        'birthplace': data.get('birthplace'),
+        'weight': data.get('weight'),
+        'bloodGroup': data.get('bloodGroup'),
+        'gender': data.get('gender'),
+        'address': data.get('address')
+    }
+    users_collection.insert_one(user_data)
+
+    return jsonify({"message": "Registration successful!"}), 201
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid request"}), 400
+
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({"error": "Email and password are required!"}), 400
+
+    user = users_collection.find_one({'email': email})
+    if user and check_password_hash(user['password'], password):
+        session['username'] = user['username']  # Store username in session
+        return jsonify({"message": "Login successful!"}), 200
+    else:
+        return jsonify({"error": "Invalid email or password!"}), 401
+
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return f'Hello, {session["username"]}! Welcome to your dashboard.'
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 # Feature Extraction Function
 def extract_features(audio_file):
@@ -92,9 +226,8 @@ def extract_features(audio_file):
 
         return features
     except Exception as e:
-        print(f"Feature Extraction Error: {e}")
+        logger.error(f"Feature Extraction Error: {e}")
         return None
-
 
 # Prediction Function
 def predict_baby_cry(new_cry_features):
@@ -123,7 +256,7 @@ def predict_baby_cry(new_cry_features):
 
         return predicted_cry_type
     except Exception as e:
-        print(f"Prediction Error: {e}")
+        logger.error(f"Prediction Error: {e}")
         return "Error in Prediction"
 
 # Initialize MediaPipe Face Mesh
@@ -136,7 +269,6 @@ total_frames = 0
 is_tracking = False
 start_time = None
 capture_thread = None
-
 
 def get_gaze_direction(landmarks):
     """Determine face direction based on facial landmarks."""
@@ -152,7 +284,6 @@ def get_gaze_direction(landmarks):
         return "Looking Left"
     else:
         return "Looking Center"
-
 
 def process_gaze():
     """Process gaze tracking in a separate thread."""
@@ -181,9 +312,9 @@ def process_gaze():
         time.sleep(0.03)  # Reduce CPU usage
 
     cap.release()
-# Flask Routes
 
-@app.route("/")  # Home page
+# Flask Routes
+@app.route("/")
 def main_page():
     return render_template("main_page.html")
 
@@ -209,7 +340,7 @@ def agt():
 
 @app.route("/asc")
 def asc():
-    return render_template("asc.html",questions=questions)
+    return render_template("asc.html", questions=questions)
 
 @app.route("/results", methods=["POST"])
 def results():
@@ -245,7 +376,7 @@ def results():
 
     return render_template("result.html", result=result_message, follow_up_needed=follow_up_needed)
 
-#cry det paths
+# Cry detection paths
 @app.route("/predict", methods=["POST"])
 def predict():
     if "audio" not in request.files:
@@ -279,7 +410,6 @@ def video_feed():
     """Return the video stream."""
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-
 @app.route('/start_test', methods=['POST'])
 def start_test():
     """Start gaze tracking."""
@@ -300,7 +430,6 @@ def start_test():
 
     return jsonify({"message": "Test started!"})
 
-#geometric paths
 @app.route('/stop_test', methods=['POST'])
 def stop_test():
     """Stop gaze tracking and return results."""
@@ -322,23 +451,22 @@ def stop_test():
 
     return jsonify(result)
 
-
 @app.route('/left_video')
 def left_video():
     """Serve the left side video."""
     return send_file("static/left.mp4", mimetype="video/mp4")
-
 
 @app.route('/right_video')
 def right_video():
     """Serve the right side video."""
     return send_file("static/right.mp4", mimetype="video/mp4")
 
-CORS(app)  # Allow frontend to talk to backend
-
 # Hugging Face API details
 API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3"
-HEADERS = {"Authorization": "Bearer api-key"}  # Replace with your Hugging Face API key
+HEADERS = {
+    "Authorization": "Bearer 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",
+    "Content-Type": "application/json"
+}
 
 # Function to get chatbot response
 def chatbot_response(user_input):
@@ -360,7 +488,19 @@ def chatbot_response(user_input):
         
         return bot_response
     else:
-        return "Sorry, I'm having trouble answering right now. Please try again later."
+        responses = [
+        "Hmm, I'm not sure I can help with that, but if you've got any health-related questions, I'm here for you!",
+        "That's a bit out of my zone, but I'm happy to chat about anything medical!",
+        "I might not have the answer to that, but if you want to talk about your health, I'm all ears!",
+        "Not sure I can help with that, but if there's something medical on your mind, I'm here to listen!",
+        "That's a little outside my expertise, but if you need help with a health concern, just let me know!",
+        "I'm here to help with medical-related questions! Let me know if you'd like to talk about symptoms, treatments, or health advice.",
+        "I'm not sure I understand your question. If you're asking about a health concern, I'll do my best to help!",
+        "That might be outside my expertise, but I can help with medical questions if you'd like!",
+        "I'm designed to provide medical information. Let me know how I can help with your health-related queries!",
+        "Hmm, I might not have the answer to that, but I'm here to support you with medical advice!"
+        ]
+        return random.choice(responses)
 
 def format_as_bullets(text):
     """ Converts numbered lists (1., 2., etc.) into bullet points (-) """
@@ -392,13 +532,3 @@ def chat():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
-
-
-
-
-

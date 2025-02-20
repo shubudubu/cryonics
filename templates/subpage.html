@@ -1,181 +1,217 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Cryonics</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- font awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- owl carousel -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- custom css -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/utilities.css') }}">
-        <!-- normalize.css -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    </head>
-    <body>
-        
-      
 
-            <main style="cursor: default;">
-                <section class = "sc-services">
-                    <div class = "services-shape">
-                        <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
-                    </div>
-                    <div class="container">
-                        <div class = "services-content">
-                            <div class="title-box text-center">
-                                <div class = "content-wrapper">
-                                    <h3 class = "title-box-name">cryonics</h3>
-                                    <p class = "texty">empowering parents and caregivers with intelligent tools that bridge the communication gap with their babies, fostering deeper understanding, reducing stress, and promoting optimal infant well-being.</p>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cryonics</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+        integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- custom css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/utilities.css') }}">
+    <!-- normalize.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 
-                                </div>
-                            </div>
-
-                            <div class = "services-list">
-                                <div class = "services-item" onclick="window.location.href='/detcry';" style="cursor: pointer;">
-                                    <div class="item-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-up svg-icon" viewBox="0 0 16 16">
-                                            <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
-                                            <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
-                                            <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
-                                        </svg>
-                                    </div>
-                                    
-                                    <h5 class = "item-title fw-7">Detect Cry</h5>
-                                    <p class = "text">Figure out what's the reason for crying whether it's hunger, belly pain, tiredness, burping or some discomfort.</p>
-                                </div>
-
-                                <div class = "services-item"  onclick="window.location.href='/at';" style="cursor: pointer;">
-                                    <div class = "item-icon">
-                                        
-                                        <img src = "{{ url_for('static', filename='other/brain.svg') }}" alt = "service icon">
-                                    </div>
-                                    <h5 class = "item-title fw-7">Autism Detection</h5>
-                                    <p class = "text">Check whether your child shows possible signs of autism.</p>
-                                </div>
-
-                                <div class = "services-item" style="cursor: pointer;">
-                                    <div class = "item-icon" >
-                                        <img src="{{ url_for('static', filename='other/question-lg.svg')}}" alt="service icon"  style="width: 110px; height: 110px;">
-                                    </div>
-                                    <h5 class = "item-title fw-7">Ask your Queries</h5>
-                                    <p class = "text">Get answers to the questions you have about your child's health and figure out the solutions to the problems of modern day parenting with the help of a chat-bot</p>   
-                                </div>
-
-                                
-                            </div>
-
+<body>
+    <main style="cursor: default;">
+        <section class="sc-services">
+            <div class="services-shape">
+                <img src="{{ url_for('static', filename='assets/images/curve-shape-1.png') }}" alt="Logo">
+            </div>
+            <div class="container">
+                <div class="services-content">
+                    <div class="title-box text-center">
+                        <div class="content-wrapper">
+                            <h3 class="title-box-name">cryonics</h3>
+                            <p class="texty">empowering parents and caregivers with intelligent tools that bridge the
+                                communication gap with their babies, fostering deeper understanding, reducing stress,
+                                and promoting optimal infant well-being.</p>
 
                         </div>
                     </div>
-                </section>
 
-                <section class = "sc-grid sc-grid-one">
-                    <div class="container">
-                        <div class = "grid-content d-grid align-items-center">
-                            <div class = "grid-img">
-                                <img src="{{ url_for('static', filename='other/OIP-removebg-preview.png')}}" alt="" style="width: 120%; height: auto; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">
-
+                    <div class="services-list">
+                        <div class="services-item" onclick="window.location.href='/detcry';" style="cursor: pointer;">
+                            <div class="item-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-volume-up svg-icon" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z" />
+                                    <path
+                                        d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z" />
+                                    <path
+                                        d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11" />
+                                </svg>
                             </div>
-                            <div class = "grid-text">
-                                <div class = "content-wrapper text-start">
-                                    <div class = "title-box">
-                                        <h3 class = "title-box-name text-white">cryonics</h3>
-                                        <div class = "title-separator mx-auto"></div>
-                                    </div>
 
-                                    <p class = "text title-box-text text-white">a world where every baby's cry is understood, empowering modern day and deaf parents with intelligent tools that reduce stress, enhance understanding, and promote optimal infant well-being and pioneer early detection of developmental needs such as autism.</p>
-                                    <a href="{{ url_for('cu') }}">
-                                        <button type="button" class="btn btn-white-outline">Contact Us</button>
-                                    </a>
-                                    
-                                </div>
+                            <h5 class="item-title fw-7">Detect Cry</h5>
+                            <p class="text">Figure out what's the reason for crying whether it's hunger, belly pain,
+                                tiredness, burping or some discomfort.</p>
+                        </div>
+
+                        <div class="services-item" onclick="window.location.href='/at';" style="cursor: pointer;">
+                            <div class="item-icon">
+
+                                <img src="{{ url_for('static', filename='other/brain.svg') }}" alt="service icon">
                             </div>
+                            <h5 class="item-title fw-7">Autism Detection</h5>
+                            <p class="text">Check whether your child shows possible signs of autism.</p>
+                        </div>
+
+                        <div class="services-item" style="cursor: pointer;" onclick="window.location.href='/talk';">
+                            <div class="item-icon">
+                                <img src="{{ url_for('static', filename='other/question-lg.svg')}}" alt="service icon"
+                                    style="width: 110px; height: 110px;">
+                            </div>
+                            <h5 class="item-title fw-7">Ask your Queries</h5>
+                            <p class="text">Get answers to the questions you have about your child's health and figure
+                                out the solutions to the problems of modern day parenting with the help of a chat-bot
+                            </p>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+        <section class="sc-grid sc-grid-one">
+            <div class="container">
+                <div class="grid-content d-grid align-items-center">
+                    <div class="grid-img">
+                        <img src="{{ url_for('static', filename='other/OIP-removebg-preview.png')}}" alt=""
+                            style="width: 120%; height: auto; transition: transform 0.3s ease;"
+                            onmouseover="this.style.transform='scale(1.2)'"
+                            onmouseout="this.style.transform='scale(1)'">
+
+                    </div>
+                    <div class="grid-text">
+                        <div class="content-wrapper text-start">
+                            <div class="title-box">
+                                <h3 class="title-box-name text-white">cryonics</h3>
+                                <div class="title-separator mx-auto"></div>
+                            </div>
+
+                            <p class="text title-box-text text-white">a world where every baby's cry is understood,
+                                empowering modern day and deaf parents with intelligent tools that reduce stress,
+                                enhance understanding, and promote optimal infant well-being and pioneer early detection
+                                of developmental needs such as autism.</p>
+                            <a href="{{ url_for('cu') }}">
+                                <button type="button" class="btn btn-white-outline">Contact Us</button>
+                            </a>
+
                         </div>
                     </div>
-                </section>
+                </div>
+            </div>
+        </section>
 
-                
 
-                
 
-                <section class = "sc-articles">
-                    <div class = "articles-shape">
-                        <img src="{{ url_for('static', filename='assets/images/curve-shape-2.png') }}" alt="Logo">
+
+
+        <section class="sc-articles">
+            <div class="articles-shape">
+                <img src="{{ url_for('static', filename='assets/images/curve-shape-2.png') }}" alt="Logo">
+            </div>
+            <div class="container">
+                <div class="articles-content">
+                    <div class="articles-element">
+                        <img src="{{ url_for('static', filename='assets/images/element-img-2.png') }}" alt="Logo">
                     </div>
-                    <div class = "container">
-                        <div class = "articles-content">
-                            <div class = "articles-element">
-                                <img src="{{ url_for('static', filename='assets/images/element-img-2.png') }}" alt="Logo">
-                            </div>
-                            <div class = "title-box text-center">
-                                <div class = "content-wrapper">
-                                    <h3 class = "title-box-name">read these articles to keep track of your infant-care literacy</h3>
-                                    <div class = "title-separator mx-auto"></div>
-                                </div>
-                            </div>
-                            
-                            <div class = "articles-list d-flex flex-wrap justify-content-center">
-                                <article class = "articles-item">
-                                    <div class = "item-img">
-                                        <img src = "{{ url_for('static', filename='other/Vaccination_Chart_For_Babies_In_India_b7d162e1d7.png')}}">
-                                    </div>
-                                    <div class = "item-body">
-                                        <div class = "item-title">Vaccination Chart for babies in India</div>
-                                        <p class = "texty">The baby immunisation schedule table for 2025 outlines the recommended vaccines for infants and children, ensuring their...</p>
-                                        <a target="_blank" href = "https://www.acko.com/health-insurance/health-guides/vaccination-chart-for-babies/" class = "item-link text-blue d-flex align-items-baseline">
-                                            <span class = "item-link-text">Read more</span>
-                                            <span class = "item-link-icon">
-                                                <i class = "fas fa-arrow-right"></i>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </article>
-
-                                <article class = "articles-item">
-                                    <div class = "item-img">
-                                        <img src = "{{ url_for('static', filename='other/infant-child-nutrition-doctor-in-begusarai.jpg')}}">
-                                    </div>
-                                    <div class = "item-body">
-                                        <div class = "item-title">Infant Nutrition</div>
-                                        <p class = "texty">"Infant and Toddler Nutrition" by the Centers for Disease Control and Prevention (CDC): This resource offers detailed guidance on breastfeeding, formula feeding, and introducing solid foods....</p>
-                                        <a target="_blank" href= "https://www.cdc.gov/infant-toddler-nutrition/" class = "item-link text-blue d-flex align-items-baseline">
-                                            <span class = "item-link-text">Read more</span>
-                                            <span class = "item-link-icon">
-                                                <i class = "fas fa-arrow-right"></i>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </article>
-
-                                <article class = "articles-item">
-                                    <div class = "item-img">
-                                        <img src = "{{ url_for('static', filename='other/baby-bed-back.webp')}}">
-                                    </div>
-                                    <div class = "item-body">
-                                        <div class = "item-title">Providing Care for Babies to Sleep Safely</div>
-                                        <p class = "texty">"Providing Care for Babies to Sleep Safely" by the CDC: Outlines safe sleep practices to reduce the risk of sudden infant death syndrome (SIDS)...</p>
-                                        <a href = "https://www.cdc.gov/sudden-infant-death/sleep-safely" target="_blank" class = "item-link text-blue d-flex align-items-baseline">
-                                            <span class = "item-link-text">Read more</span>
-                                            <span class = "item-link-icon">
-                                                <i class = "fas fa-arrow-right"></i>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </article>
-                            </div>
+                    <div class="title-box text-center">
+                        <div class="content-wrapper">
+                            <h3 class="title-box-name">read these articles to keep track of your infant-care literacy
+                            </h3>
+                            <div class="title-separator mx-auto"></div>
                         </div>
                     </div>
-                </section>
-            </main>
 
-        </div>
-        
+                    <div class="articles-list d-flex flex-wrap justify-content-center">
+                        <article class="articles-item">
+                            <div class="item-img">
+                                <img
+                                    src="{{ url_for('static', filename='other/Vaccination_Chart_For_Babies_In_India_b7d162e1d7.png')}}">
+                            </div>
+                            <div class="item-body">
+                                <div class="item-title">Vaccination Chart for babies in India</div>
+                                <p class="texty">The baby immunisation schedule table for 2025 outlines the recommended
+                                    vaccines for infants and children, ensuring their...</p>
+                                <a target="_blank"
+                                    href="https://www.acko.com/health-insurance/health-guides/vaccination-chart-for-babies/"
+                                    class="item-link text-blue d-flex align-items-baseline">
+                                    <span class="item-link-text">Read more</span>
+                                    <span class="item-link-icon">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </article>
+
+                        <article class="articles-item">
+                            <div class="item-img">
+                                <img
+                                    src="{{ url_for('static', filename='other/infant-child-nutrition-doctor-in-begusarai.jpg')}}">
+                            </div>
+                            <div class="item-body">
+                                <div class="item-title">Infant Nutrition</div>
+                                <p class="texty">"Infant and Toddler Nutrition" by the Centers for Disease Control and
+                                    Prevention (CDC): This resource offers detailed guidance on breastfeeding, formula
+                                    feeding, and introducing solid foods....</p>
+                                <a target="_blank" href="https://www.cdc.gov/infant-toddler-nutrition/"
+                                    class="item-link text-blue d-flex align-items-baseline">
+                                    <span class="item-link-text">Read more</span>
+                                    <span class="item-link-icon">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </article>
+
+                        <article class="articles-item">
+                            <div class="item-img">
+                                <img src="{{ url_for('static', filename='other/baby-bed-back.webp')}}">
+                            </div>
+                            <div class="item-body">
+                                <div class="item-title">Providing Care for Babies to Sleep Safely</div>
+                                <p class="texty">"Providing Care for Babies to Sleep Safely" by the CDC: Outlines safe
+                                    sleep practices to reduce the risk of sudden infant death syndrome (SIDS)...</p>
+                                <a href="https://www.cdc.gov/sudden-infant-death/sleep-safely" target="_blank"
+                                    class="item-link text-blue d-flex align-items-baseline">
+                                    <span class="item-link-text">Read more</span>
+                                    <span class="item-link-icon">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+    
+        </section>
+    </main>
+
+    </div>
 
 
 
@@ -183,11 +219,60 @@
 
 
 
-        <!-- jquery cdn -->
-        <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-        <!-- owl carousel -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <!-- custom js -->
-        <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
-    </body>
+    <script>
+        async function fetchProtectedData() {
+            try {
+                const response = await fetch('/protected-route');
+                if (response.status === 401) {  // Unauthorized
+                    window.location.href = '/login';  // Redirect to login page
+                } else {
+                    const data = await response.json();
+                    console.log(data);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+
+    </script>
+    <script>
+        // Check if the user is logged in
+        async function checkLogin() {
+            try {
+                const response = await fetch('/check-auth');  // Add this route to your Flask backend
+                if (response.status === 401) {  // Unauthorized
+                    window.location.href = '/login';  // Redirect to login page
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    
+        // Run the check when the page loads
+        window.onload = checkLogin;
+    </script>
+    <script>
+        async function logout() {
+            try {
+                const response = await fetch('/logout', { method: 'POST' });
+                if (response.ok) {
+                    window.location.href = '/main_page';  // Redirect to login page
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <!-- owl carousel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- custom js -->
+    <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+</body>
+
 </html>

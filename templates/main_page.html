@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cryonics - Register</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
     <style>
         * {
             margin: 0;
@@ -43,21 +45,25 @@
             letter-spacing: 2px;
         }
 
-        /* Register Box */
-        .register-container {
+        /* Form Container */
+        .form-container {
             position: absolute;
-            top: 37px;
+            top: 20px;
             left: 20px;
             width: 320px;
+            max-height: 90vh;
+            /* Ensure it doesn't exceed viewport height */
             padding: 20px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             text-align: center;
+            overflow-y: auto;
+            /* Make the form scrollable internally if needed */
         }
 
-        .register-container h2 {
+        .form-container h2 {
             color: white;
             font-size: 22px;
             margin-bottom: 15px;
@@ -67,12 +73,15 @@
         /* Input Fields */
         .input-box {
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            /* Reduced margin */
         }
 
-        .input-box input, .input-box select {
+        .input-box input,
+        .input-box select {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
+            /* Reduced padding */
             border: none;
             border-radius: 5px;
             outline: none;
@@ -97,51 +106,101 @@
         .btn:hover {
             background: #168F44;
         }
+
+        /* Toggle Link */
+        .toggle-link {
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Warning Message */
+        .warning {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Message Display */
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Background Video -->
     <div class="video-container">
         <video autoplay loop muted playsinline>
-            <source src = "{{ url_for('static', filename='other/background.mp4') }}" type="video/mp4">
+            <source src="{{ url_for('static', filename='other/background.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
 
     <!-- Register Form -->
-    <div class="register-container">
+    <div class="form-container" id="registerForm">
         <h2>Welcome, Parent</h2>
+        <!-- Message Display -->
+        <div id="registerMessage" class="message"></div>
         <!-- Baby Username -->
         <div class="input-box">
             <input type="text" id="username" placeholder="Username for the Child" required>
+            <div class="warning" id="usernameWarning">Username is already taken. Please choose another.</div>
         </div>
         <!-- Baby's Full Name -->
         <div class="input-box">
             <input type="text" id="childName" placeholder="Child's Full Name" required>
+            <div class="warning" id="childNameWarning">Please enter the child's full name.</div>
         </div>
         <!-- Email Input -->
         <div class="input-box">
-            <input type="email" placeholder="Email" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <div class="warning" id="emailWarning">Email is already registered. Please use another email.</div>
         </div>
         <!-- Password Input -->
         <div class="input-box">
-            <input type="password" placeholder="Password" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <div class="warning" id="passwordWarning">Please enter a password.</div>
         </div>
         <!-- Baby Birth Details -->
         <div class="input-box">
             <input type="date" id="dob" placeholder="Date of Birth" required>
+            <div class="warning" id="dobWarning">Please enter the date of birth.</div>
         </div>
         <div class="input-box">
             <input type="text" id="birthplace" placeholder="Birth Place" required>
+            <div class="warning" id="birthplaceWarning">Please enter the birth place.</div>
         </div>
         <!-- Baby Weight -->
         <div class="input-box">
             <input type="number" id="weight" placeholder="Weight (in grams)" required>
+            <div class="warning" id="weightWarning">Please enter the weight.</div>
         </div>
         <!-- Baby Blood Group -->
         <div class="input-box">
             <input type="text" id="bloodGroup" placeholder="Blood Group" required>
+            <div class="warning" id="bloodGroupWarning">Please enter the blood group.</div>
         </div>
         <!-- Baby Gender -->
         <div class="input-box">
@@ -151,18 +210,199 @@
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
             </select>
+            <div class="warning" id="genderWarning">Please select a gender.</div>
         </div>
         <!-- Baby's Address -->
         <div class="input-box">
             <input type="text" id="address" placeholder="Address" required>
+            <div class="warning" id="addressWarning">Please enter the address.</div>
         </div>
-        <a href="{{ url_for('sub_page') }}">
-            <button class="btn">Sign Up</button>
-        </a>
-        
-        
+        <button class="btn" type="submit" onclick="validateRegisterForm()">Sign Up</button>
+        <div class="toggle-link" onclick="toggleForm()">Already have an account? Sign In</div>
     </div>
 
+    <!-- Login Form -->
+    <div class="form-container" id="loginForm" style="display: none;">
+        <h2>Sign In</h2>
+        <!-- Message Display -->
+        <div id="loginMessage" class="message"></div>
+        <!-- Email Input -->
+        <div class="input-box">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <div class="warning" id="loginEmailWarning">Please enter your email.</div>
+        </div>
+        <!-- Password Input -->
+        <div class="input-box">
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <div class="warning" id="loginPasswordWarning">Please enter your password.</div>
+        </div>
+        <button class="btn" type="submit" onclick="validateLoginForm()">Sign In</button>
+        <div class="toggle-link" onclick="toggleForm()">Don't have an account? Register</div>
+    </div>
 
+    <script>
+        // Toggle between Register and Login forms
+        function toggleForm() {
+            const registerForm = document.getElementById('registerForm');
+            const loginForm = document.getElementById('loginForm');
+            if (registerForm.style.display === 'none') {
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+            } else {
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+            }
+        }
+
+        // Display message
+        function showMessage(elementId, message, isSuccess) {
+            const messageDiv = document.getElementById(elementId);
+            messageDiv.textContent = message;
+            messageDiv.className = `message ${isSuccess ? 'success' : 'error'}`;
+            messageDiv.style.display = 'block';
+
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Validate Register Form
+        async function validateRegisterForm() {
+            let isValid = true;
+
+            // Check if all fields are filled
+            const fields = [
+                'username', 'childName', 'email', 'password', 'dob', 'birthplace', 'weight', 'bloodGroup', 'gender', 'address'
+            ];
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const warning = document.getElementById(`${field}Warning`);
+                if (!input.value) {
+                    warning.style.display = 'block';
+                    isValid = false;
+                } else {
+                    warning.style.display = 'none';
+                }
+            });
+
+            if (!isValid) return;
+
+            const formData = {
+                username: document.getElementById('username').value,
+                childName: document.getElementById('childName').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                dob: document.getElementById('dob').value,
+                birthplace: document.getElementById('birthplace').value,
+                weight: document.getElementById('weight').value,
+                bloodGroup: document.getElementById('bloodGroup').value,
+                gender: document.getElementById('gender').value,
+                address: document.getElementById('address').value
+            };
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    showMessage('registerMessage', 'Registration successful! Redirecting...', true);
+                    setTimeout(() => {
+                        window.location.href = '/subpage'; // Redirect to subpage
+                    }, 2000);
+                } else {
+                    showMessage('registerMessage', result.error || 'Registration failed', false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('registerMessage', 'An error occurred during registration', false);
+            }
+        }
+
+
+        //Redirect to Login Page if Not Logged In
+        async function fetchProtectedData() {
+            try {
+                const response = await fetch('/protected-route');
+                if (response.status === 401) {  // Unauthorized
+                    window.location.href = '/login';  // Redirect to login page
+                } else {
+                    const data = await response.json();
+                    console.log(data);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function logout() {
+            try {
+                const response = await fetch('/logout', { method: 'POST' });
+                if (response.ok) {
+                    window.location.href = '/login';  // Redirect to login page
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Validate Login Form
+        async function validateLoginForm() {
+            let isValid = true;
+
+            // Check if all fields are filled
+            const fields = ['loginEmail', 'loginPassword'];
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const warning = document.getElementById(`${field}Warning`);
+                if (!input.value) {
+                    warning.style.display = 'block';
+                    isValid = false;
+                } else {
+                    warning.style.display = 'none';
+                }
+            });
+
+            if (!isValid) {
+                showMessage('loginMessage', 'Please fill in all required fields.', false);
+                return;
+            }
+
+            const loginData = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    showMessage('loginMessage', 'Login successful! Redirecting...', true);
+                    setTimeout(() => {
+                        window.location.href = '/subpage'; // Redirect to subpage
+                    }, 2000);
+                } else {
+                    showMessage('loginMessage', result.error || 'Login failed', false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('loginMessage', 'An error occurred during login', false);
+            }
+        }
+    </script>
 </body>
+
 </html>
