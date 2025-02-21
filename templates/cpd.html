@@ -4,12 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KidsMedWorld - Coming Soon!</title>
+    <title>KidsMedWorld - Cerebral Palsy Detection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@500&display=swap');
-    </style>
-    <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
         * {
@@ -74,110 +72,54 @@
             margin-bottom: 1rem;
         }
 
-        .animation-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 2rem;
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
         }
 
-        .doctor {
-            width: 100%;
-            height: 100%;
-            background-color: #b3d9ff;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .face {
-            width: 60%;
-            height: 60%;
-            background-color: #ffe6cc;
-            border-radius: 50%;
-            position: absolute;
-            top: 20%;
-            left: 20%;
-        }
-
-        .stethoscope {
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            border: 10px solid #0066cc;
-            border-radius: 50%;
-            border-bottom: transparent;
-            border-left: transparent;
-            transform: rotate(45deg);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: rotate(45deg) scale(1);
-            }
-
-            50% {
-                transform: rotate(45deg) scale(1.1);
-            }
-
-            100% {
-                transform: rotate(45deg) scale(1);
-            }
-        }
-
-        p {
-            color: #333;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .loading-dots span {
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            text-align: center;
+            text-decoration: none;
             display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin: 0 5px;
-            animation: bounce 1.4s infinite ease-in-out both;
         }
 
-        .loading-dots span:nth-child(1) {
-            background-color: #ff6b6b;
+        .start-btn {
+            background-color: rgb(50, 237, 50);
         }
 
-        .loading-dots span:nth-child(2) {
-            background-color: #feca57;
-            animation-delay: 0.2s;
+        .start-btn:hover {
+            background-color: rgb(40, 200, 40);
         }
 
-        .loading-dots span:nth-child(3) {
-            background-color: #48dbfb;
-            animation-delay: 0.4s;
+        .stop-btn {
+            background-color: rgb(237, 50, 50);
         }
 
-        @keyframes bounce {
-
-            0%,
-            80%,
-            100% {
-                transform: scale(0);
-            }
-
-            40% {
-                transform: scale(1);
-            }
+        .stop-btn:hover {
+            background-color: rgb(200, 40, 40);
         }
-    </style>
-</head>
 
-<body>
-    <!-- Back Button -->
-    <a href="{{ url_for('sub_page') }}" class="back-button">← Back</a>
+        .output-section {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+        }
 
-    <div id="bg-elements"></div>
-    <style>
         .back-button {
             position: fixed;
             top: 20px;
@@ -192,49 +134,105 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             z-index: 1000;
-            /* Ensures it's above other elements */
             cursor: pointer;
         }
 
         .back-button:hover {
             background-color: #0056b3;
-            color: #fff !important;
-            text-decoration: none;
+        }
+
+        .video-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .camera-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+            display: none;
+        }
+
+        .video-feed {
+            display: none;
+        }
+
+        .video-feed.active {
+            display: block;
         }
     </style>
+</head>
+
+<body>
+    <!-- Back Button -->
+    <a href="{{ url_for('sub_page') }}" class="back-button">← Back</a>
+
+    <div id="bg-elements"></div>
+
     <div class="container">
         <h1>Cerebral Palsy Detection</h1>
-        <div class="animation-container">
-            <div class="doctor">
-                <div class="face"></div>
+        <div class="video-container">
+            <img id="video-feed" class="video-feed" src="{{ url_for('video_feed_for_cpd') }}" width="640" height="480">
+            <div id="camera-icon" class="camera-icon">
+                <i class="fas fa-video-slash"></i>
             </div>
-            <div class="stethoscope"></div>
         </div>
-        <p>Our Cerebral Palsy Detection system is in its <br>final stages of development and will be launched soon.!</p>
-        <div class="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
+        <br>
+        <div class="button-container">
+            <button id="start-btn" class="btn start-btn">Start Test</button>
+            <button id="stop-btn" class="btn stop-btn">Stop Test</button>
+        </div>
+        <!-- Output Section -->
+        <div class="output-section">
+            <h3>Output:</h3>
+            <pre id="output"></pre>
         </div>
     </div>
 
     <script>
-        // Add a simple animation to the doctor's face
-        const face = document.querySelector('.face');
-        let direction = 1;
-        let position = 20;
+        // Start Test Button
+        document.getElementById('start-btn').addEventListener('click', async () => {
+            const videoFeed = document.getElementById('video-feed');
+            const cameraIcon = document.getElementById('camera-icon');
 
-        function animateFace() {
-            position += 0.2 * direction;
-            if (position > 22 || position < 18) {
-                direction *= -1;
-            }
-            face.style.top = `${position}%`;
-            requestAnimationFrame(animateFace);
-        }
+            const response = await fetch('/start_cpd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const result = await response.json();
+            document.getElementById('output').textContent = JSON.stringify(result, null, 2);
 
-        animateFace();
+            // Show video feed and hide camera icon
+            videoFeed.classList.add('active');
+            cameraIcon.style.display = 'none';
+        });
 
+        // Stop Test Button
+        document.getElementById('stop-btn').addEventListener('click', async () => {
+            const videoFeed = document.getElementById('video-feed');
+            const cameraIcon = document.getElementById('camera-icon');
+
+            const response = await fetch('/stop_cpd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const result = await response.json();
+            document.getElementById('output').textContent = JSON.stringify(result, null, 2);
+
+            // Hide video feed and show camera icon
+            videoFeed.classList.remove('active');
+            cameraIcon.style.display = 'block';
+        });
+
+        // Background Elements Animation
         const bgElements = [
             { icon: 'fa-stethoscope', color: '#4a90e2' },
             { icon: 'fa-band-aid', color: '#f39c12' },
@@ -263,6 +261,10 @@
             element.style.animationDelay = `${Math.random() * 5}s`;
             bgContainer.appendChild(element);
         }
+
+        // Initially show the camera icon and hide the video feed
+        document.getElementById('camera-icon').style.display = 'block';
+        document.getElementById('video-feed').classList.remove('active');
     </script>
 </body>
 
