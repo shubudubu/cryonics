@@ -85,23 +85,57 @@
                                 out the solutions to the problems of modern day parenting with the help of a chat-bot
                             </p>
                         </div>
-
-                                                <div class="services-item" style="cursor: pointer;" onclick="window.location.href='/sngo';">
-                            <div class="item-icon">
-                                <img src="{{ url_for('static', filename='other/question-lg.svg')}}" alt="service icon"
-                                    style="width: 110px; height: 110px;">
+                        <div class="centerit">
+                            <div class="services-item newlinediv" style="cursor: pointer;"
+                                onclick="window.location.href='/sngo';">
+                                <div class="item-icon">
+                                    <img src="{{ url_for('static', filename='other/icons8-home.svg')}}"
+                                        alt="service icon" style="width: 110px; height: 110px;">
+                                </div>
+                                <h5 class="item-title fw-7">Helping hands</h5>
+                                <p class="text">Learn more about child welfare and NGOs supporting underprivileged
+                                    parents
+                                    in your area.
+                                </p>
                             </div>
-                            <h5 class="item-title fw-7">Ask your Queries</h5>
-                            <p class="text">Get answers to the questions you have about your child's health and figure
-                                out the solutions to the problems of modern day parenting with the help of a chat-bot
-                            </p>
+
+                            <div class="services-item newlinediv" style="cursor: pointer;"
+                                onclick="window.location.href='/cpd';">
+                                <div class="item-icon">
+                                    <img src="{{ url_for('static', filename='other/newborn.svg')}}" alt="service icon"
+                                        style="width: 110px; height: 110px;">
+                                </div>
+                                <h5 class="item-title fw-7">Cerebral Palsy Detection</h5>
+                                <p class="text">A system for early detection of Cerebral Palsy using advanced
+                                    diagnostics
+                                    and machine learning.
+                                </p>
+                            </div>
+
                         </div>
 
-
                     </div>
-
-
                 </div>
+                <style>
+                    .centerit {
+                        display: flex;
+                        justify-content: center;
+                        /* Center horizontally */
+                        gap: 20px;
+                        /* Add spacing between the two child divs */
+                        width: 100%;
+                        /* Ensure it takes full width */
+                        margin-top: 20px;
+                        /* Add space above the centered divs */
+                    }
+
+                    .services-item.newlinediv {
+                        flex: 0 1 auto;
+                        /* Allow the divs to shrink/grow as needed */
+                        max-width: 45%;
+                        /* Ensure they don't stretch too wide */
+                    }
+                </style>
             </div>
         </section>
 
@@ -218,17 +252,11 @@
                     </div>
                 </div>
             </div>
-    
+
         </section>
     </main>
 
     </div>
-
-
-
-
-
-
 
     <script>
         async function fetchProtectedData() {
@@ -259,7 +287,7 @@
                 console.error('Error:', error);
             }
         }
-    
+
         // Run the check when the page loads
         window.onload = checkLogin;
     </script>

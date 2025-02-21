@@ -519,6 +519,10 @@ def format_as_bullets(text):
 def talk():
     return render_template("talk.html")
 
+@app.route("/cpd")
+def cpd():
+    return render_template("cpd.html")
+
 # API Endpoint for chatbot
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -529,7 +533,6 @@ def chat():
     user_input = data["message"]
     bot_response = chatbot_response(user_input)
     return jsonify({"response": bot_response})
-
 
 def load_ngos():
     file_path = "output.json"
@@ -565,6 +568,7 @@ def index():
         return render_template("ngor.html", name=name, city=city.title(), ngos=ngos)
 
     return render_template("sngo.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
