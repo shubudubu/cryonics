@@ -570,5 +570,177 @@ def index():
     return render_template("sngo.html")
 
 
+
+
+# cp detetction
+
+mp_holistic = mp.solutions.holistic
+mp_pose = mp.solutions.pose
+mp_drawing = mp.solutions.drawing_utils
+mp_hands = mp.solutions.hands
+
+cap = None
+movement_data = []
+running = False
+results_output = {}
+
+def mediapipe_detection(image, model):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image.flags.writeable = False
+    results = model.process(image)
+    image.flags.writeable = True
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    return image, results
+
+def draw_styled_landmarks(image, results, hand_results):
+    mp_drawing.draw_landmarks(image, results.face_landmarks, mp_holistic.FACEMESH_TESSELATION,
+                                mp_drawing.DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
+                                mp_drawing.DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1))
+    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
+                                mp_drawing.DrawingSpec(color=(173, 216, 230), thickness=2, circle_radius=4),
+                                mp_drawing.DrawingSpec(color=(173, 216, 230), thickness=2, circle_radius=2))
+    if hand_results.multi_hand_landmarks:
+        for hand_landmarks in hand_results.multi_hand_landmarks:
+            mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS,
+                                        mp_drawing.DrawingSpec(color=(245, 117, 66), thickness=1, circle_radius=3),
+                                        mp_drawing.DrawingSpec(color=(245, 66, 230), thickness=1, circle_radius=2))
+
+def process_frame():
+    global cap, movement_data, running, results_output
+    hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+    pose = mp_pose.Pose(static_image_mode=False, model_complexity=1, smooth_landmarks=True)
+
+    with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+        while running and cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            image, results = mediapipe_detection(frame, holistic)
+            hand_results = hands.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
+            draw_styled_landmarks(image, results, hand_results)
+
+            if results.pose_landmarks:
+                landmarks = results.pose_landmarks.landmark
+                keypoints = {mp_pose.PoseLandmark(i).name: (lm.x, lm.y) for i, lm in enumerate(landmarks)}
+
+                left_shoulder, right_shoulder = keypoints['LEFT_SHOULDER'], keypoints['RIGHT_SHOULDER']
+                left_hip, right_hip = keypoints['LEFT_HIP'], keypoints['RIGHT_HIP']
+                left_knee, right_knee = keypoints['LEFT_KNEE'], keypoints['RIGHT_KNEE']
+                left_wrist, right_wrist = keypoints['LEFT_WRIST'], keypoints['RIGHT_WRIST']
+
+                shoulder_diff = abs(left_shoulder[1] - right_shoulder[1])
+                hip_diff = abs(left_hip[1] - right_hip[1])
+                knee_diff = abs(left_knee[1] - right_knee[1])
+
+                is_asymmetrical = shoulder_diff > 0.1 or hip_diff > 0.1
+                is_scissoring = abs(left_hip[0] - right_hip[0]) < 0.05 and knee_diff > 0.15
+
+                is_fisting = False
+                if hand_results.multi_hand_landmarks:
+                    for hand_landmarks in hand_results.multi_hand_landmarks:
+                        thumb_tip = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
+                        index_tip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
+                        middle_tip = hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP]
+                        ring_tip = hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP]
+                        pinky_tip = hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP]
+
+                        finger_distances = [
+                            abs(index_tip.x - middle_tip.x),
+                            abs(middle_tip.x - ring_tip.x),
+                            abs(ring_tip.x - pinky_tip.x),
+                            abs(pinky_tip.x - thumb_tip.x)
+                        ]
+
+                        if all(dist < 0.03 for dist in finger_distances):
+                            is_fisting = True
+
+                movement_data.append({
+                    'asymmetry': is_asymmetrical,
+                    'scissoring': is_scissoring,
+                    'fisting': is_fisting
+                })
+
+            _, buffer = cv2.imencode('.jpg', image)
+            frame_global = buffer.tobytes()
+
+            time.sleep(0.01)
+
+    calculate_results()
+    cap.release()
+    hands.close()
+    pose.close()
+
+def calculate_results():
+    global movement_data, results_output
+    total_frames = len(movement_data)
+
+    if total_frames == 0:
+        results_output = {"error": "No frames captured."}
+        return
+
+    asymmetry_count = sum(d['asymmetry'] for d in movement_data)
+    scissoring_count = sum(d['scissoring'] for d in movement_data)
+    fisting_count = sum(d['fisting'] for d in movement_data)
+
+    asymmetry_percentage = (asymmetry_count / total_frames) * 100
+    scissoring_percentage = (scissoring_count / total_frames) * 100
+    fisting_percentage = (fisting_count / total_frames) * 100
+
+    risk_signs = sum([
+        asymmetry_percentage > 70,
+        scissoring_percentage > 20,
+        fisting_percentage > 75
+    ])
+
+    if risk_signs >= 1:
+        message = "Possible Signs of Cerebral Palsy Detected. Consult a doctor for further evaluation."
+    else:
+        message = "No major risk detected. Continue monitoring your child's development."
+
+    results_output = {
+        "asymmetry_percentage": f"{asymmetry_percentage:.2f}%",
+        "scissoring_percentage": f"{scissoring_percentage:.2f}%",
+        "fisting_percentage": f"{fisting_percentage:.2f}%",
+        "message": message
+    }
+
+@app.route('/video_feed_for_cpd')
+def video_feed_for_cpd():
+    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/start_cpd', methods=['POST'])
+def start_cpd():
+    global cap, running, movement_data, results_output
+    if not running:
+        cap = cv2.VideoCapture(0)
+        movement_data = []
+        running = True
+        threading.Thread(target=process_frame).start()
+        return jsonify({"message": "Detection started."})
+    else:
+        return jsonify({"message": "Detection already running."})
+
+@app.route('/stop_cpd', methods=['POST'])
+def stop_cpd():
+    global running, results_output
+    running = False
+    return jsonify(results_output)
+
+
+def generate_frames():
+    global frame_global, running
+    while running:
+        if frame_global is not None:
+            try:
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame_global + b'\r\n')
+            except Exception as e:
+                print(f"Error generating frame: {e}")
+                break
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
