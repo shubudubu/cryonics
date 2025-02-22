@@ -15,28 +15,33 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        /* Prevent scrolling on the body and html */
+        html, body {
+            overflow: hidden; /* Disable scrolling */
+            height: 100%; /* Ensure the body takes up the full viewport height */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+
         .back-button {
             position: fixed;
             top: 20px;
             left: 20px;
             padding: 10px 20px;
-            background-color: rgb(60, 60, 218);
-            color: white;
+            background-color: #007BFF;
+            color: white !important;
             text-decoration: none;
             font-size: 16px;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             z-index: 1000;
-            /* Ensures it's above other elements */
             cursor: pointer;
         }
 
         .back-button:hover {
-            background-color: white;
-            color: black;
-            text-decoration: none;
+            background-color: #0056b3;
         }
 
         /* Background Styling */
@@ -48,7 +53,7 @@
             min-height: 100vh;
             color: #333;
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* Ensure no overflow */
         }
 
         /* Background elements */
@@ -75,6 +80,8 @@
             text-align: center;
             max-width: 400px;
             width: 100%;
+            margin: 20px; /* Added margin for better spacing */
+            overflow: hidden; /* Ensure no overflow */
         }
 
         /* Headings */

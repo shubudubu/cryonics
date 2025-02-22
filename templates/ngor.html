@@ -24,6 +24,8 @@
             color: #333;
             position: relative;
             overflow: hidden;
+            cursor: default;
+            padding: 20px; /* Add padding to body to prevent touching edges */
         }
 
         /* Background elements */
@@ -51,6 +53,10 @@
             width: 90%;
             position: relative;
             z-index: 1;
+            max-height: 90vh; /* Limit container height */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         h1 {
@@ -61,7 +67,33 @@
 
         .ngo-list {
             text-align: left;
-            margin-top: 20px;
+            margin-top: 10px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 400px; /* Adjust as needed */
+            min-height: 100px; /* Minimum height */
+            padding-right: 10px; /* Add padding to prevent content from touching scrollbar */
+            background: #e9e9e9; /* Slightly darker background */
+            border-radius: 8px; /* Rounded edges */
+            padding: 15px; /* Inner padding */
+        }
+
+        /* Custom Scrollbar */
+        .ngo-list::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+
+        .ngo-list::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Light track */
+            border-radius: 4px; /* Rounded edges */
+        }
+
+        .ngo-list::-webkit-scrollbar-thumb {
+            background: #3292ff; /* Scrollbar thumb */
+            border-radius: 4px; /* Rounded edges */
+        }
+
+        .ngo-list::-webkit-scrollbar-thumb:hover {
+            background: #1f67ba; /* Darker thumb on hover */
         }
 
         .ngo-list li {
@@ -71,15 +103,19 @@
             border-radius: 8px;
             margin-bottom: 15px;
             transition: 0.3s;
+            word-break: break-word; /* Allow wrapping of long words */
+            white-space: normal; /* Allow text to wrap */
+            overflow: hidden; /* Hide overflow */
         }
 
-        .ngo-list li:hover {
-            background: #e0e0e0;
+        .ngo-list li strong {
+            display: inline-block;
+            min-width: 80px; /* Ensure consistent spacing for labels */
         }
 
         a {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 10px;
             padding: 10px 15px;
             text-decoration: none;
             color: white;
@@ -108,7 +144,8 @@
                         <strong>Head:</strong> {{ ngo["NGO Head Name"] }} <br>
                         <strong>Address:</strong> {{ ngo["Address"] }} <br>
                         <strong>Mobile:</strong> {{ ngo["Mobile"] }} <br>
-                        <strong>Email:</strong> {{ ngo["Email id"] }} <br>
+                        <strong>Email:</strong> <span>{{ ngo["Email id"] }}</span> <br>
+                        
                     </li>
                 {% endfor %}
             </ul>
@@ -120,6 +157,18 @@
     </div>
 
     <script>
+        // JavaScript to trim extra spaces from email addresses
+        document.addEventListener("DOMContentLoaded", function () {
+            const ngoItems = document.querySelectorAll(".ngo-list li");
+            ngoItems.forEach((item) => {
+                const emailElement = item.querySelector("strong:last-of-type + br + span");
+                if (emailElement) {
+                    emailElement.textContent = emailElement.textContent.replace(/\s+/g, ""); // Remove all spaces
+                }
+            });
+        });
+
+        // Background elements animation
         const bgElements = [
             { icon: 'fa-stethoscope', color: '#4a90e2' },
             { icon: 'fa-band-aid', color: '#f39c12' },
