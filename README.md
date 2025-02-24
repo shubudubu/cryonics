@@ -5,21 +5,21 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)  
 [![Tech Stack](https://img.shields.io/badge/Tech%20Stack-Full%20Stack-green)](#tech-stack)  
 
-## 🚀 Overview  
+## Overview  
 **Cryonics-Crux** is a **fully-fledged full-stack project** designed to assist **young parents** by leveraging **AI/ML** to analyze infant cries and provide real-time support. The system offers **cry-type detection, autism & cerebral palsy detection, and an interactive chatbot** for guidance.  
 
 Additionally, the **Helping Hand** feature extends support to **underprivileged parents and NGOs** to help reduce **infant mortality rates**, with a **multi-lingual interface** for global accessibility.  
 
 ---
 
-## 👥 Team  
+## Team  
 ### Project Leads:  
 - **Shubham Mohanty** ([GitHub](https://github.com/shubudubu))  
 - **Rahul Mallik** ([GitHub](https://github.com/rahul-mallik))  
 
 ---
 
-## 🔑 Key Features  
+## Key Features  
 ✅ **AI-Powered Cry Detection** - Identifies different types of baby cries (hunger, discomfort, pain, etc.)  
 ✅ **Autism & Cerebral Palsy Detection** - Early-stage AI-based diagnosis for better intervention  
 ✅ **Infant Chatbot** - AI-driven chatbot for real-time assistance and parenting tips  
@@ -28,10 +28,10 @@ Additionally, the **Helping Hand** feature extends support to **underprivileged 
 
 ---
 
-## 🛠️ Tech Stack  
+## Tech Stack  
 - **Frontend:**  HTML, CSS, JS 
 - **Backend:** Flask   
-- **Machine Learning:** TensorFlow / OpenCV / MediaPipe  
+- **Machine Learning:** Library / Scikit-learn / Numpy & Pandas / Joblib / OpenCV / MediaPipe  
 - **Database:** MongoDB   
 
 ---
