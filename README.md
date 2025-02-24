@@ -31,7 +31,7 @@ Additionally, the **Helping Hand** feature extends support to **underprivileged 
 ## Tech Stack  
 - **Frontend:**  HTML, CSS, JS 
 - **Backend:** Flask   
-- **Machine Learning:** Library / Scikit-learn / Numpy & Pandas / Joblib / OpenCV / MediaPipe  
+- **Machine Learning:** Librosa / Scikit-learn / Numpy & Pandas / Joblib / OpenCV / MediaPipe  
 - **Database:** MongoDB   
 
 ---
