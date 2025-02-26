@@ -6,7 +6,7 @@
 [![Tech Stack](https://img.shields.io/badge/Tech%20Stack-Full%20Stack-green)](#tech-stack)  
 
 ## Overview  
-**Cryonics-Crux** is a **fully-fledged full-stack project** designed to assist **young parents** by leveraging **AI/ML** to analyze infant cries and provide real-time support. The system offers **cry-type detection, autism & cerebral palsy detection, and an interactive chatbot** for guidance.  
+**Cryonics** is a **fully-fledged full-stack project** designed to assist **young parents** by leveraging **AI/ML** to analyze infant cries and provide real-time support. The system offers **cry-type detection, autism & cerebral palsy detection, and an interactive chatbot** for guidance.  
 
 Additionally, the **Helping Hand** feature extends support to **underprivileged parents and NGOs** to help reduce **infant mortality rates**, with a **multi-lingual interface** for global accessibility.  
 
