@@ -35,8 +35,6 @@ Additionally, the **Helping Hand** feature extends support to **underprivileged 
 - **Database:** MongoDB   
 
 ---
-
-## 📸 Screenshots (Coming Soon!)  
 🔹 Infant Cry Detection Interface
 ![Infant Cry Detection](https://cdn.discordapp.com/attachments/899208092888207370/1343251729050898533/image.png?ex=67bc9828&is=67bb46a8&hm=ba934b24a44f88ad33c6d880b560103d5b15772f8dde57a1e9eb2906e59c98d1&)
 🔹 AI Chatbot Assistance 
