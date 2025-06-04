@@ -35,12 +35,8 @@ Additionally, the **Helping Hand** feature extends support to **underprivileged 
 - **Database:** MongoDB   
 
 ---
-🔹 Infant Cry Detection Interface
-![Infant Cry Detection](https://cdn.discordapp.com/attachments/899208092888207370/1343251729050898533/image.png?ex=67bc9828&is=67bb46a8&hm=ba934b24a44f88ad33c6d880b560103d5b15772f8dde57a1e9eb2906e59c98d1&)
-🔹 AI Chatbot Assistance 
-![AI Chatbot](https://cdn.discordapp.com/attachments/899208092888207370/1343252354014773409/image.png?ex=67bc98bd&is=67bb473d&hm=099bbf5ebe5005d864c7d3374411e282cd5abfac729f1d860b1822a56bf0ac6a&)
-🔹 Helping Hand Dashboard
-![Helping Hand Dashboard](https://cdn.discordapp.com/attachments/899208092888207370/1343251392378441748/image.png?ex=67bc97d8&is=67bb4658&hm=892baf393fb686397d0f317fd05c315a216880a7ed337e57c7d8c7b1e5eb3674&)
+
+
 🔹 Geometrical Preference Test for ASD
 ![Geometrical Preference Test for ASD](static/IMG-20250221-WA0016.jpg) 
 )
