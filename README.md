@@ -21,9 +21,13 @@ Additionally, the **Helping Hand** feature extends support to **underprivileged 
 
 ## Key Features  
 ✅ AI-Based Cry Recognition – Detects and differentiates baby cries, such as those indicating hunger, pain, or discomfort
+
 ✅ Early Detection of Autism & Cerebral Palsy – Uses AI for early diagnosis to enable timely and effective care
+
 ✅ Smart Infant Chatbot – An intelligent assistant offering real-time parenting guidance and support
+
 ✅ Support for NGOs & Underprivileged Parents – Dedicated tools to assist caregivers in low-resource settings
+
 ✅ Linguistic Inclusivity – Offers multilingual capabilities to ensure accessibility across diverse communities
 
 ---
